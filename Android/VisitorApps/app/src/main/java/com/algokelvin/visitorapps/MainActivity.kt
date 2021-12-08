@@ -16,13 +16,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var borderUI: BorderUI
     private var header = "null"
     private var endShow = false
+    private var xShow = false
+    private var xStart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val visitor = DataSample.setData()
+        val visitor = DataSample.setData2()
         dataBool = arrayOfNulls(visitor.size)
         Arrays.fill(dataBool, false)
         borderUI = BorderUI(this@MainActivity, color = R.color.white,
@@ -43,7 +45,15 @@ class MainActivity : AppCompatActivity() {
                     view.date_visitor.text = visitor[position].date
                     view.date_visitor.visibility = View.VISIBLE
                     header = visitor[position].date
-                    dataBool[position] = false
+                } else {
+                    view.date_visitor.visibility = View.GONE
+                }
+            } else if (xShow) {
+                if (dataBool[position]!!) {
+                    Log.i("datahistory-date", "XSHOW - ${position + 1} If date")
+                    view.date_visitor.text = visitor[position].date
+                    view.date_visitor.visibility = View.VISIBLE
+                    header = visitor[position].date
                 } else {
                     view.date_visitor.visibility = View.GONE
                 }
@@ -66,10 +76,13 @@ class MainActivity : AppCompatActivity() {
             if (position + 1 == visitor.size) {
                 Log.i("datahistory-date", "${position} Position is End")
                 endShow = true
+                xStart = true
             }
             if (position == 0) {
                 Log.i("datahistory-date", "${position} Position is TOP")
                 endShow = false
+                if (xStart)
+                    xShow = true
             }
         }
         this.rvItem.adapter = dataAdapter
