@@ -39,32 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun ActivityMainBinding.setRecyclerView(visitor: ArrayList<Visitor>) {
         this.rvItem.layoutManager = LinearLayoutManager(this@MainActivity)
         val dataAdapter = DataAdapter(visitor.size, R.layout.item_visitor) { view, position ->
-            if (endShow) {
-                if (dataBool[position]!!) {
-                    Log.i("datahistory-date", "ENDSHOW - ${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
-                    setHeaderData(visitor[position].date)
-                } else {
-                    setVisibilityHeader(view.date_visitor, View.GONE)
-                }
-            } else if (xShow) {
-                if (dataBool[position]!!) {
-                    Log.i("datahistory-date", "XSHOW - ${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
-                    setHeaderData(visitor[position].date)
-                } else {
-                    setVisibilityHeader(view.date_visitor, View.GONE)
-                }
-            } else {
-                if (visitor[position].date != header) {
-                    Log.i("datahistory-date", "${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
-                    setHeaderData(visitor[position].date)
-                    dataBool[position] = true
-                } else {
-                    setVisibilityHeader(view.date_visitor, View.GONE)
-                }
-            }
+            header(position, dataBool[position], view.date_visitor, visitor[position].date)
 
             view.cl_data_visitor.background = borderUI.getBorder()
             view.name_visitor.text = ("${position + 1} Name: ${visitor[position].name}")
@@ -80,8 +55,11 @@ class MainActivity : AppCompatActivity() {
         textView.text = data
         textView.visibility = visibility
     }
-    private fun setHeaderData(data: String) {
-        header = data
+    private fun setHeaderData(data: String?) {
+        header = data!!
+    }
+    private fun setBoolData(position: Int, boolean: Boolean) {
+        dataBool[position] = boolean
     }
     private fun scrollConditional(position: Int, max: Int) {
         if (position + 1 == max) {
@@ -94,6 +72,29 @@ class MainActivity : AppCompatActivity() {
             endShow = false
             if (xStart)
                 xShow = true
+        }
+    }
+    private fun headerController(dataBool: Boolean?, textView: TextView, data: String?) {
+        if (dataBool == true) {
+            setVisibilityHeader(textView, View.VISIBLE, data)
+            setHeaderData(data)
+        } else {
+            setVisibilityHeader(textView, View.GONE)
+        }
+    }
+    private fun header(position: Int, dataBool: Boolean?, textView: TextView, data: String?) {
+        if (endShow) {
+            headerController(dataBool, textView, data)
+        } else if (xShow) {
+            headerController(dataBool, textView, data)
+        } else {
+            if (data != header) {
+                setVisibilityHeader(textView, View.VISIBLE, data)
+                setHeaderData(data)
+                setBoolData(position, true)
+            } else {
+                setVisibilityHeader(textView, View.GONE)
+            }
         }
     }
 
