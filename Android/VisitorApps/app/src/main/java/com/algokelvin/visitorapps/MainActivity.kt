@@ -1,15 +1,14 @@
 package com.algokelvin.visitorapps
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.algokelvin.visitorapps.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.item_visitor.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -43,27 +42,27 @@ class MainActivity : AppCompatActivity() {
             if (endShow) {
                 if (dataBool[position]!!) {
                     Log.i("datahistory-date", "ENDSHOW - ${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, visitor[position].date)
-                    header = visitor[position].date
+                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
+                    setHeaderData(visitor[position].date)
                 } else {
-                    view.date_visitor.visibility = View.GONE
+                    setVisibilityHeader(view.date_visitor, View.GONE)
                 }
             } else if (xShow) {
                 if (dataBool[position]!!) {
                     Log.i("datahistory-date", "XSHOW - ${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, visitor[position].date)
-                    header = visitor[position].date
+                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
+                    setHeaderData(visitor[position].date)
                 } else {
-                    view.date_visitor.visibility = View.GONE
+                    setVisibilityHeader(view.date_visitor, View.GONE)
                 }
             } else {
                 if (visitor[position].date != header) {
                     Log.i("datahistory-date", "${position + 1} If date")
-                    setVisibilityHeader(view.date_visitor, visitor[position].date)
-                    header = visitor[position].date
+                    setVisibilityHeader(view.date_visitor, View.VISIBLE, visitor[position].date)
+                    setHeaderData(visitor[position].date)
                     dataBool[position] = true
                 } else {
-                    view.date_visitor.visibility = View.GONE
+                    setVisibilityHeader(view.date_visitor, View.GONE)
                 }
             }
 
@@ -87,9 +86,12 @@ class MainActivity : AppCompatActivity() {
         dataAdapter.notifyDataSetChanged()
     }
 
-    private fun setVisibilityHeader(textView: TextView, data: String) {
+    private fun setVisibilityHeader(textView: TextView, visibility: Int, data: String? = null) {
         textView.text = data
-        textView.visibility = View.VISIBLE
+        textView.visibility = visibility
+    }
+    private fun setHeaderData(data: String) {
+        header = data
     }
 
 }
