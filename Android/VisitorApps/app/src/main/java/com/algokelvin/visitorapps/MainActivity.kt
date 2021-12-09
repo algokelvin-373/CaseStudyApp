@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.algokelvin.visitorapps.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.item_visitor.view.*
@@ -42,8 +43,7 @@ class MainActivity : AppCompatActivity() {
             if (endShow) {
                 if (dataBool[position]!!) {
                     Log.i("datahistory-date", "ENDSHOW - ${position + 1} If date")
-                    view.date_visitor.text = visitor[position].date
-                    view.date_visitor.visibility = View.VISIBLE
+                    setVisibilityHeader(view.date_visitor, visitor[position].date)
                     header = visitor[position].date
                 } else {
                     view.date_visitor.visibility = View.GONE
@@ -51,8 +51,7 @@ class MainActivity : AppCompatActivity() {
             } else if (xShow) {
                 if (dataBool[position]!!) {
                     Log.i("datahistory-date", "XSHOW - ${position + 1} If date")
-                    view.date_visitor.text = visitor[position].date
-                    view.date_visitor.visibility = View.VISIBLE
+                    setVisibilityHeader(view.date_visitor, visitor[position].date)
                     header = visitor[position].date
                 } else {
                     view.date_visitor.visibility = View.GONE
@@ -60,8 +59,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 if (visitor[position].date != header) {
                     Log.i("datahistory-date", "${position + 1} If date")
-                    view.date_visitor.text = visitor[position].date
-                    view.date_visitor.visibility = View.VISIBLE
+                    setVisibilityHeader(view.date_visitor, visitor[position].date)
                     header = visitor[position].date
                     dataBool[position] = true
                 } else {
@@ -87,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         }
         this.rvItem.adapter = dataAdapter
         dataAdapter.notifyDataSetChanged()
+    }
+
+    private fun setVisibilityHeader(textView: TextView, data: String) {
+        textView.text = data
+        textView.visibility = View.VISIBLE
     }
 
 }
