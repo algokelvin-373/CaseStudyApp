@@ -70,17 +70,7 @@ class MainActivity : AppCompatActivity() {
             view.name_visitor.text = ("${position + 1} Name: ${visitor[position].name}")
             view.address_visitor.text = (visitor[position].address + " " + visitor[position].date)
 
-            if (position + 1 == visitor.size) {
-                Log.i("datahistory-date", "${position} Position is End")
-                endShow = true
-                xStart = true
-            }
-            if (position == 0) {
-                Log.i("datahistory-date", "${position} Position is TOP")
-                endShow = false
-                if (xStart)
-                    xShow = true
-            }
+            scrollConditional(position, visitor.size)
         }
         this.rvItem.adapter = dataAdapter
         dataAdapter.notifyDataSetChanged()
@@ -92,6 +82,19 @@ class MainActivity : AppCompatActivity() {
     }
     private fun setHeaderData(data: String) {
         header = data
+    }
+    private fun scrollConditional(position: Int, max: Int) {
+        if (position + 1 == max) {
+            Log.i("datahistory-date", "${position} Position is End")
+            endShow = true
+            xStart = true
+        }
+        if (position == 0) {
+            Log.i("datahistory-date", "${position} Position is TOP")
+            endShow = false
+            if (xStart)
+                xShow = true
+        }
     }
 
 }
