@@ -1,5 +1,6 @@
 package com.algokelvin.visitorapps
 
+import algokelvin.actioner.recyclerview.header.RecyclerViewHeader
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algokelvin.visitorapps.databinding.ActivityMainBinding
@@ -29,9 +30,9 @@ class MainActivity : AppCompatActivity() {
             dataHeader[x] = visitor[x].date
         }
 
-        RecyclerViewController(this, binding.rvItem,
+        RecyclerViewHeader(this, binding.rvItem,
             visitor.size, R.layout.item_visitor,
-            dataBool, dataHeader)
+            dataBool, dataHeader, R.id.date_visitor)
         { view, position ->
             view.cl_data_visitor.background = borderUI.getBorder()
             view.name_visitor.text = ("${position + 1} Name: ${visitor[position].name}")
